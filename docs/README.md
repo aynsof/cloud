@@ -1,90 +1,68 @@
-## 18F Guides Template
+# React Documentation & Website
 
-This is a skeleton repo containing the
-[CFPB/DOCter](https://github.com/CFPB/DOCter)-based
-[Jekyll](http://jekyllrb.com/) template for
-[18F Guides](http://18f.github.io/guides/).
+We use [Jekyll](http://jekyllrb.com/) to build the site using ([mostly](http://zpao.com/posts/adding-line-highlights-to-markdown-code-fences/)) Markdown, and we host it by pushing HTML to [GitHub Pages](http://pages.github.com/).
 
-### Getting started
+## Installation
 
-#### Installing Ruby
+If you are working on the site, you will want to install and run a local copy of it.
 
-You will need [Ruby](https://www.ruby-lang.org) ( > version 2.1.5 ). To check
-whether it's already installed on a UNIX-like system, open up a terminal
-window (e.g. Terminal on OS X) and type `ruby -v` at the command prompt. For
-example, you should see something similar to the following:
+### Dependencies
 
-```shell
-$ ruby -v
-ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-darwin14]
+In order to use Jekyll, you will need to have Ruby installed.
+
+ - [Ruby](http://www.ruby-lang.org/) (version >= 1.8.7)
+ - [RubyGems](http://rubygems.org/) (version >= 1.3.7)
+ - [Bundler](http://gembundler.com/)
+
+Mac OS X comes pre-installed with Ruby, but you may need to update RubyGems (via `gem update --system`).
+Otherwise, [RVM](https://rvm.io/) and [rbenv](https://github.com/sstephenson/rbenv) are popular ways to install Ruby.
+Once you have RubyGems and installed Bundler (via `gem install bundler`), use it to install the dependencies:
+
+```sh
+$ cd react/docs
+$ bundle install # Might need sudo.
+$ npm install
 ```
 
-If the version number is less than 2.1.5, or instead you see something like:
+### Instructions
 
-```shell
-$ ruby -v
--bash: ruby: command not found
+The site requires React, so first make sure you've built the project (via `grunt`).
+
+Use Jekyll to serve the website locally (by default, at `http://localhost:4000`):
+
+```sh
+$ cd react/docs
+$ bundle exec rake
+$ bundle exec rake fetch_remotes
+$ bundle exec jekyll serve -w
+$ open http://localhost:4000/react/
 ```
 
-Then Ruby is not installed, and you should choose one of the installation
-methods below. [The "Installing Ruby" page of the official
-Ruby language web
-site](https://www.ruby-lang.org/en/documentation/installation/) explains how
-to do this in a number of ways across many different systems.
+We use [SASS](http://sass-lang.com/) (with [Bourbon](http://bourbon.io/)) for our CSS, and we use JSX to transform some of our JS.
+If you only want to modify the HTML or Markdown, you do not have to do anything because we package pre-compiled copies of the CSS and JS.
+If you want to modify the CSS or JS, use [Rake](http://rake.rubyforge.org/) to compile them:
 
-##### Quickest Ruby install/upgrade for OS X
-
-On OS X, you can use [Homebrew](http://brew.sh/) to install Ruby in
-`/usr/local/bin`, which may require you to update your `$PATH` environment
-variable:
-
-```shell
-$ brew update
-$ brew install ruby
+```sh
+$ cd react/docs
+$ bundle exec rake watch # Automatically compiles as needed.
+# bundle exec rake         Manually compile CSS and JS.
+# bundle exec rake js      Manually compile JS, only.
 ```
 
-##### Optional: using a version manager
+## Afterthoughts
 
-Whether or not Ruby is already installed, we strongly recommend using a Ruby
-version manager such as [rbenv](https://github.com/sstephenson/rbenv) or
-[rvm](https://rvm.io/) to help ensure that Ruby version upgrades don't mean
-all your [gems](https://rubygems.org/) will need to be rebuilt.
+### Updating `facebook.github.io/react`
 
-#### Cloning and serving the Guides Template locally
+The easiest way to do this is to have a separate clone of this repository, checked out to the `gh-pages` branch. We have a build step that expects this to be in a directory named `react-gh-pages` at the same depth as `react`. Then it's just a matter of running `grunt docs`, which will compile the site and copy it out to this repository. From there, you can check it in.
 
-To create a new guide and serve it locally, where `MY-NEW-GUIDE` is the name
-of your new repository:
+**Note:** This should only be done for new releases. You should create a tag corresponding to the release tag in the main repository.
 
-```shell
-$ git clone https://github.com/18F/guides-template.git MY-NEW-GUIDE
-$ cd MY-NEW-GUIDE
-$ ./go serve
+We also have a rake task that does the same thing (without creating commits). It expects the directory structure mentioned above.
+
+```sh
+$ bundle exec rake release
 ```
 
-The `./go` script will check that your Ruby version is supported, install the
-[Bundler gem](http://bundler.io/) if it is not yet installed, install all the
-gems needed by the template, and launch a running instance on
-`http://localhost:4000/`.
+### Removing the Jekyll / Ruby Dependency
 
-#### Follow the template instructions
-
-The Guides Template (either [running locally](http://localhost:4000) or the
-[published version](https://pages.18f.gov/guides-template/)) will walk you
-through the rest of the steps to edit and publish your guide.
-
-### Staging version (for 18F team members)
-
-In addition to the `18f-pages` branch, you can create an `18f-pages-staging`
-branch and changes to that branch will be published to
-`https://pages-staging.18f.gov/MY-NEW-GUIDE`, which is identical to
-`https://pages.18f.gov/` but provides authenticated access.
-
-### Public domain
-
-This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
-
-> This project is in the public domain within the United States, and copyright and related rights in the work worldwide are waived through the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
->
-> All contributions to this project will be released under the CC0
->dedication. By submitting a pull request, you are agreeing to comply
->with this waiver of copyright interest.
+In an ideal world, we would not be adding a Ruby dependency on part of our project. We would like to move towards a point where we are using React to render the website.
