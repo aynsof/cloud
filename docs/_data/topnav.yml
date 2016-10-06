@@ -10,20 +10,18 @@ topnav:
 topnav_dropdowns:
 - title: Topnav dropdowns
   folders:
-    - title: Jekyll Resources
+    - title: Cloud Governance
       folderitems:
-        - title: Github Repo
+        - title: Agile
+          url: /agile_introduction.html
+        - title: About this Documentation
           external_url: https://github.com/tomjohnson1492/documentation-theme-jekyll
-        - title: Jekyll Talk
-          external_url: https://talk.jekyllrb.com
-        - title: Jekyll documentation
-          external_url: http://jekyllrb.com/docs/home/
-        - title: Jekyll on Stack Overflow
-          external_url: http://stackoverflow.com/questions/tagged/jekyll
-        - title: Jekyll on my blog
-          external_url: http://idratherbewriting.com/category-jekyll/
     - title: Products
       folderitems:
+        - title: Amazonia
+          external_url: https://github.com/GeoscienceAustralia/Amazonia
+        - title: Toucan
+          external_url: https://github.com/GeoscienceAustralia/Toucan
         - title: Jekyll Documentation Theme
           url: /mydoc_introduction.html
         - title: Product 1
